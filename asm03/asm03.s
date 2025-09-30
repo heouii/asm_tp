@@ -31,12 +31,12 @@ _start:
 
    
     mov rax, 1              
-    mov rdi, 1              
+    mov rdi, 0              
     mov rsi, msg
     mov rdx, len
     syscall
 
 exit:
     mov rax, 60            
-    mov rdi, 1
+    xor rdi, rdi
     syscall
