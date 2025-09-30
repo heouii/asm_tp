@@ -35,9 +35,9 @@ compare:
     cmp rax, 42
     je egal
 
-    ; quitter si pas égal
+   
     mov rax, 60
-    mov rdi, 0
+    mov rdi, 1
     syscall
 
 egal:
