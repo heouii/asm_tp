@@ -1,6 +1,6 @@
 section .data
     num db '1337',0xA
-    buffer times 3
+    buffer times 3 db
 
 section .text
     global _start
