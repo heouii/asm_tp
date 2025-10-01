@@ -6,9 +6,9 @@ section .text
     global _start
 
 _start:
-    mov rbx, [rsp+16]      ; Adresse du premier argument (argv[1])
+    mov rbx, [rsp+16]      
 
-    ; Si pas d'argument, exit 1
+   
     cmp rbx, 0
     je exit_code_1
 
@@ -24,7 +24,7 @@ _start:
     cmp al, 0
     jne exit_code_1
 
-    ; Afficher "1337"
+    
     mov rax, 1
     mov rdi, 1
     mov rsi, msg
