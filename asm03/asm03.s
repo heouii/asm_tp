@@ -2,46 +2,40 @@ section .data
     msg db "1337", 0xA
     len equ $-msg
 
-section .bss
-    buffer resb 8
-
 section .text
     global _start
 
 _start:
-    ; Lire l'entrée utilisateur
-    mov rax, 0          ; syscall read
-    mov rdi, 0          ; stdin
-    mov rsi, buffer
-    mov rdx, 8
-    syscall
+    mov rbx, [rsp+16]      ; Adresse du premier argument (argv[1])
 
-    ; Vérifier "42" + retour à la ligne
-    mov al, [buffer]
+    ; Si pas d'argument, exit 1
+    cmp rbx, 0
+    je exit_code_1
+
+    mov al, [rbx]
     cmp al, '4'
     jne exit_code_1
 
-    mov al, [buffer+1]
+    mov al, [rbx+1]
     cmp al, '2'
     jne exit_code_1
 
-    mov al, [buffer+2]
-    cmp al, 0xA         ; entrée = retour à la ligne
+    mov al, [rbx+2]
+    cmp al, 0
     jne exit_code_1
 
     ; Afficher "1337"
     mov rax, 1
-    mov rdi, 1          ; stdout
+    mov rdi, 1
     mov rsi, msg
     mov rdx, len
     syscall
 
-    ; Quitter avec code 0
     mov rax, 60
-    xor rdi, rdi        ; code de sortie 0
+    xor rdi, rdi
     syscall
 
 exit_code_1:
     mov rax, 60
-    mov rdi, 1          ; code de sortie 1
+    mov rdi, 1
     syscall
