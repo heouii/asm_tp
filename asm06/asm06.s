@@ -1,5 +1,6 @@
 section .bss
     tampon resb 20
+    tampon2 resb 20
 
 section .text
     global _start
@@ -40,18 +41,19 @@ lire3:
 ajoute:
     add rbx, rdx
 
-    mov rsi, tampon
     mov rax, rbx
+    mov rsi, tampon
     xor rcx, rcx
     test rax, rax
     jnz boucle_chiffre
     mov byte [rsi], '0'
     inc rsi
+    mov rcx, 1
     jmp fini_chiffre
 boucle_chiffre:
     mov rdx, 0
-    mov rbx, 10
-    div rbx
+    mov rdi, 10
+    div rdi
     add dl, '0'
     mov [rsi], dl
     inc rsi
@@ -59,27 +61,24 @@ boucle_chiffre:
     test rax, rax
     jnz boucle_chiffre
 fini_chiffre:
-    mov rbx, rcx
-    mov rdi, tampon
-    add rdi, rcx
-    dec rdi
     mov rsi, tampon
-    mov rcx, rbx
+    mov rdi, tampon2
+    mov rbx, rcx
+    xor rdx, rdx
 boucle_inv:
-    cmp rcx, 0
+    cmp rbx, 0
     je affiche
-    mov al, [rsi]
-    mov [rdi], al
-    inc rsi
-    dec rdi
-    dec rcx
+    dec rbx
+    mov al, [rsi+rbx]
+    mov [rdi+rdx], al
+    inc rdx
     jmp boucle_inv
 
 affiche:
     mov rax, 1
     mov rdi, 1
-    mov rsi, tampon
-    mov rdx, rbx
+    mov rsi, tampon2
+    mov rdx, rdx
     syscall
 
     mov rax, 60
