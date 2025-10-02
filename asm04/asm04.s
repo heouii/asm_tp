@@ -1,11 +1,8 @@
 section .bss
-
     buffer resb 10
 
-section .data
-
 section .text
-        
+    global _START
 
 _START:
     mov rax, 0 
@@ -14,40 +11,41 @@ _START:
     mov rdx, 10 
     syscall
 
-
     mov rsi, buffer 
-    xor rbx, rbx
-    xor rcx, rcx
-
+    xor rbx, rbx        
+    xor rcx, rcx        
 
 convert:
-
     mov al, [rsi+rcx]
-    cmp al, 0xA
-    je test
+    cmp al, 0xA         
+    je test_parity
+    cmp al, 0           
+    je test_parity
     cmp al, '0'
-    jl test
+    jl invalid_input    
     cmp al, '9'
-    jg test
+    jg invalid_input    
     sub al, '0'
-    imul rbx,  rbx, 10
+    imul rbx, rbx, 10
     add rbx, rax
     inc rcx
     jmp convert
-test:
-    mov rbx, 1 
-    jz pair
-    jmp impair
 
-pair:
+invalid_input:
     mov rax, 60
-    xor rdi, rdi
+    mov rdi, 2          
     syscall
 
-
-impair:
+test_parity:
+    test rbx, 1
+    jz even
     mov rax, 60
-    xor rdi, 1
+    mov rdi, 1          
+    syscall
+
+even:
+    mov rax, 60
+    xor rdi, rdi        
     syscall
 
 
