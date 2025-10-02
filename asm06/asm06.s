@@ -1,5 +1,5 @@
 section .bss
-    buffer resb 20
+    tampon resb 20
 
 section .text
     global _start
@@ -7,46 +7,43 @@ section .text
 _start:
     mov rax, [rsp]
     cmp rax, 3
-    jne error
+    jne errer
 
-    mov rsi, [rsp+16]      
-    mov rdi, [rsp+24]      
-
+    mov rsi, [rsp+16]
+    mov rdi, [rsp+24]
 
     xor rbx, rbx
     xor rcx, rcx
-convert1:
+lire1:
     mov al, [rsi+rcx]
     cmp al, 0
-    je next
+    je lire2
     sub al, '0'
     imul rbx, rbx, 10
     add rbx, rax
     inc rcx
-    jmp convert1
+    jmp lire1
 
-next:
-    
+lire2:
     xor rdx, rdx
     xor rcx, rcx
-convert2:
+lire3:
     mov al, [rdi+rcx]
     cmp al, 0
-    je add
+    je ajoute
     sub al, '0'
     imul rdx, rdx, 10
     add rdx, rax
     inc rcx
-    jmp convert2
+    jmp lire3
 
-add:
+ajoute:
     add rbx, rdx
 
-    
-    mov rcx, buffer
+    mov rcx, tampon
     mov rsi, rbx
     mov rdx, 0
-reverse:
+retourne:
     mov rax, rsi
     xor rdx, rdx
     mov rbx, 10
@@ -56,22 +53,21 @@ reverse:
     inc rcx
     mov rsi, rax
     test rax, rax
-    jnz reverse
+    jnz retourne
 
-    
     mov rbx, rcx
-    sub rbx, buffer
-    mov rcx, buffer
-result:
+    sub rbx, tampon
+    mov rcx, tampon
+inverse:
     dec rcx
     mov al, [rcx]
     mov [rcx+rbx], al
-    cmp rcx, buffer
-    jne result
+    cmp rcx, tampon
+    jne inverse
 
     mov rax, 1
     mov rdi, 1
-    mov rsi, buffer+rbx
+    mov rsi, tampon+rbx
     mov rdx, rbx
     syscall
 
@@ -79,7 +75,6 @@ result:
     xor rdi, rdi
     syscall
 
-error:
+errer:
     mov rax, 60
     mov rdi, 1
-    syscall
