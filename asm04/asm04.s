@@ -34,7 +34,6 @@ convert:
     add rbx, rax
     inc rcx
     jmp convert
-
 test:
     mov rbx, 1 
     jz pair
