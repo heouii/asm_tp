@@ -46,8 +46,8 @@ ajoute:
 retourne:
     mov rax, rsi
     xor rdx, rdx
-    mov rbx, 10
-    div rbx
+    mov rdi, 10
+    div rdi
     add dl, '0'
     mov [rcx], dl
     inc rcx
@@ -57,17 +57,27 @@ retourne:
 
     mov rbx, rcx
     sub rbx, tampon
-    mov rcx, tampon
-inverse:
-    dec rcx
-    mov al, [rcx]
-    mov [rcx+rbx], al
-    cmp rcx, tampon
-    jne inverse
 
+    ; inversion correcte
+    mov rdi, tampon
+    mov rsi, tampon
+    add rsi, rbx
+    dec rsi
+    mov rcx, rbx
+boucle_inv:
+    cmp rcx, 0
+    je affiche
+    mov al, [rsi]
+    mov [rdi], al
+    inc rdi
+    dec rsi
+    dec rcx
+    jmp boucle_inv
+
+affiche:
     mov rax, 1
     mov rdi, 1
-    mov rsi, tampon+rbx
+    mov rsi, tampon
     mov rdx, rbx
     syscall
 
@@ -78,3 +88,4 @@ inverse:
 errer:
     mov rax, 60
     mov rdi, 1
+    syscall
