@@ -40,37 +40,38 @@ lire3:
 ajoute:
     add rbx, rdx
 
-    mov rcx, tampon
-    mov rsi, rbx
-    mov rdx, 0
-retourne:
-    mov rax, rsi
-    xor rdx, rdx
-    mov rdi, 10
-    div rdi
-    add dl, '0'
-    mov [rcx], dl
-    inc rcx
-    mov rsi, rax
-    test rax, rax
-    jnz retourne
-
-    mov rbx, rcx
-    sub rbx, tampon
-
-    ; inversion correcte
-    mov rdi, tampon
     mov rsi, tampon
-    add rsi, rbx
-    dec rsi
+    mov rax, rbx
+    xor rcx, rcx
+    test rax, rax
+    jnz boucle_chiffre
+    mov byte [rsi], '0'
+    inc rsi
+    jmp fini_chiffre
+boucle_chiffre:
+    mov rdx, 0
+    mov rbx, 10
+    div rbx
+    add dl, '0'
+    mov [rsi], dl
+    inc rsi
+    inc rcx
+    test rax, rax
+    jnz boucle_chiffre
+fini_chiffre:
+    mov rbx, rcx
+    mov rdi, tampon
+    add rdi, rcx
+    dec rdi
+    mov rsi, tampon
     mov rcx, rbx
 boucle_inv:
     cmp rcx, 0
     je affiche
     mov al, [rsi]
     mov [rdi], al
-    inc rdi
-    dec rsi
+    inc rsi
+    dec rdi
     dec rcx
     jmp boucle_inv
 
