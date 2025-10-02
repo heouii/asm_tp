@@ -29,3 +29,4 @@ print:
 no_param:
     mov rax, 60
     mov rdi, 1
+    syscall
