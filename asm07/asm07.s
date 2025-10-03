@@ -17,6 +17,7 @@ _start:
     mov rdi, rax
 
     call afficher_resultat
+    xor rdi, 1
     mov rax, 60
     syscall
 
