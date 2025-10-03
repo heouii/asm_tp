@@ -74,7 +74,16 @@ est_premier:
 afficher_resultat:
     add rdi, '0'
     mov [tampon], dil
+
+    push rdi
+
     mov rax, 1
+    mov rdi, 1
+    mov rsi, tampon
+    mov rdx, 1
+    syscall
+
+    pop rdi
     ret
 
 erreur:
