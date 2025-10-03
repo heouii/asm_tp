@@ -84,7 +84,7 @@ afficher_resultat:
     syscall
 
     pop rdi
-    sub rdi, 0
+    sub rdi, '0'
     ret
 
 erreur:
