@@ -15,14 +15,14 @@ _start:
     mov rbx, rax
 
     call est_premier
-    ; MODIF: Sauvegarder dans r12 (registre préservé)
-    mov r12, rax
+    ; MODIF: Sauvegarder le résultat dans r15 (vraiment préservé, pas utilisé ailleurs)
+    mov r15, rax
     mov rdi, rax
 
     call afficher_resultat
     
-    ; MODIF: Récupérer depuis r12 et inverser
-    mov rdi, r12
+    ; MODIF: Utiliser r15 et inverser pour exit code
+    mov rdi, r15
     xor rdi, 1
     mov rax, 60
     syscall
