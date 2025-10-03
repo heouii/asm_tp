@@ -66,7 +66,7 @@ est_premier:
     jmp .boucle
 
 .est_premier:
-    mov rax, 1
+    mov rax, 0
     ret
 .pas_premier:
     mov rax, 0
@@ -85,5 +85,5 @@ afficher_resultat:
 
 erreur:
     mov rax, 60
-    mov rdi, 1
+    mov rdi, 2
     syscall
