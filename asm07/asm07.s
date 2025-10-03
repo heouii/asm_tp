@@ -19,7 +19,6 @@ _start:
     call afficher_resultat
 
     mov rax, 60
-    xor rdi, rdi
     syscall
 
 lire_nombre:
@@ -69,7 +68,7 @@ est_premier:
     mov rax, 0
     ret
 .pas_premier:
-    mov rax, 0
+    mov rax, 1
     ret
 
 afficher_resultat:
