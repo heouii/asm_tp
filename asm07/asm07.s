@@ -9,14 +9,20 @@ _start:
     cmp rax, 2
     jne erreur
 
+    ; MODIF: Supprimé "pop rax" et "pop rsi" qui décalaient la stack
     mov rsi, [rsp+16]
     call lire_nombre
     mov rbx, rax
 
     call est_premier
+    ; MODIF: Sauvegarder dans r12 (registre préservé)
+    mov r12, rax
     mov rdi, rax
 
     call afficher_resultat
+    
+    ; MODIF: Récupérer depuis r12 et inverser
+    mov rdi, r12
     xor rdi, 1
     mov rax, 60
     syscall
@@ -65,29 +71,31 @@ est_premier:
     jmp .boucle
 
 .est_premier:
+    ; MODIF: Inversé - retourne 1 pour premier (exit code 0 attendu après inversion)
     mov rax, 1
     ret
 .pas_premier:
+    ; MODIF: Inversé - retourne 0 pour non-premier (exit code 1 attendu après inversion)
     mov rax, 0
     ret
 
 afficher_resultat:
     add rdi, '0'
     mov [tampon], dil
+    
     mov rax, 1
     push rdi
-
-   
     mov rdi, 1
     mov rsi, tampon
     mov rdx, 1
     syscall
-
     pop rdi
+    ; MODIF: Corriger sub rdi, 0 en sub rdi, '0' pour restaurer la valeur
     sub rdi, '0'
     ret
 
 erreur:
     mov rax, 60
+    ; MODIF: Code d'erreur 2 au lieu de 1
     mov rdi, 2
     syscall
