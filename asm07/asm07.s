@@ -14,10 +14,11 @@ _start:
     mov rbx, rax
 
     call est_premier
+    push rax
     mov rdi, rax
 
     call afficher_resultat
-
+    pop rdi
     mov rax, 60
     syscall
 
