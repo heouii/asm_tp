@@ -14,11 +14,9 @@ _start:
     mov rbx, rax
 
     call est_premier
-    push rax
     mov rdi, rax
 
     call afficher_resultat
-    pop rdi
     mov rax, 60
     syscall
 
@@ -66,25 +64,26 @@ est_premier:
     jmp .boucle
 
 .est_premier:
-    mov rax, 0
+    mov rax, 1
     ret
 .pas_premier:
-    mov rax, 1
+    mov rax, 0
     ret
 
 afficher_resultat:
     add rdi, '0'
     mov [tampon], dil
-
+    mov rax, 1
     push rdi
 
-    mov rax, 1
+   
     mov rdi, 1
     mov rsi, tampon
     mov rdx, 1
     syscall
 
     pop rdi
+    sub rdi, 0
     ret
 
 erreur:
