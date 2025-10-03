@@ -19,7 +19,6 @@ _start:
     call afficher_resultat
 
     mov rax, 60
-    xor rdi, rdi
     syscall
 
 lire_nombre:
@@ -69,18 +68,13 @@ est_premier:
     mov rax, 0
     ret
 .pas_premier:
-    mov rax, 0
+    mov rax, 1
     ret
 
 afficher_resultat:
     add rdi, '0'
     mov [tampon], dil
-    
     mov rax, 1
-    mov rdi, 1
-    mov rsi, tampon
-    mov rdx, 1
-    syscall
     ret
 
 erreur:
